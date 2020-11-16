@@ -1,0 +1,12 @@
+{
+  "name": "noteChurch",
+  "displayName": "noteChurch",
+  "expo": {
+    "name": "noteChurch",
+    "slug": "noteChurch",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
