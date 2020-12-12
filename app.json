@@ -1,12 +1,18 @@
 {
-  "name": "noteChurch",
-  "displayName": "noteChurch",
+  "name": "Rhema",
+  "displayName": "Rhema",
   "expo": {
-    "name": "noteChurch",
-    "slug": "noteChurch",
+    "name": "Projet Mon Bus",
+    "slug": "projet-mon-bus",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "description": ""
+  },
+  "oriantation": "portrait",
+  "android": {
+    "package": "com.geniusofdigital.rhema",
+    "versionCode": 1
   }
 }
