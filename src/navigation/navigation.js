@@ -91,7 +91,7 @@ const TabNavigation = () => {
             <Tab.Screen name = 'note' component = {Note} options = {optionTab.note} />
             <Tab.Screen name = 'vers' component = {Vers} options = {optionTab.vers } />
             <Tab.Screen name = 'medite' component = {Meditated} options = {optionTab.medit} />
-            {/* <Tab.Screen name = 'teach' component = {Teaching} options = {optionTab.teach}/> */}
+            
         </Tab.Navigator>
     )
 }
