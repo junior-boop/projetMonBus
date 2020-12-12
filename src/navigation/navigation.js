@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
@@ -15,19 +15,6 @@ import { Bible, BibleId } from '../page/readBible'
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator()
-
-const Mod = () => {
-    return(
-        <Stack.Navigator
-            headerMode = 'none'
-            screenOptions = {{animationEnabled : true, }}
-            mode = 'modal'
-
-        >
-            
-        </Stack.Navigator>
-    )
-}
 
 export default class Navigation extends React.Component{
     render(){
@@ -50,32 +37,18 @@ export default class Navigation extends React.Component{
     }
 }
 
-
 const optionTab = {
-
     note : {
-        title: 'Notes',
-        tabBarIcon: ({color}) => (
-            <FontAwesome name="sticky-note" size={20} color = {color} />
-          )
+        title: 'Notes', tabBarIcon: ({color}) => (<FontAwesome name="sticky-note" size={20} color = {color} />)
     },
     vers : {
-        title: 'Versets',
-        tabBarIcon: ({color}) => (
-            <FontAwesome5 name="bible" size={20} color= {color} />
-          )
+        title: 'Versets', tabBarIcon: ({color}) => (<FontAwesome5 name="bible" size={20} color= {color} />)
     }, 
     medit : {
-        title: 'Méditation',
-        tabBarIcon: ({color}) => (
-            <FontAwesome5 name="book-open" size={20} color= {color} />
-          )
+        title: 'Méditation', tabBarIcon: ({color}) => (<FontAwesome5 name="book-open" size={20} color= {color} />)
     },
     teach : {
-        title : 'Enseignements',
-        tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="triangle" size={20} color= {color} />
-          )
+        title : 'Enseignements', tabBarIcon: ({color}) => (<MaterialCommunityIcons name="triangle" size={20} color= {color} />)
     }
 }
 
@@ -89,9 +62,8 @@ const TabNavigation = () => {
             barStyle={{ backgroundColor: 'white', elevation : 0 }}
         >
             <Tab.Screen name = 'note' component = {Note} options = {optionTab.note} />
-            <Tab.Screen name = 'vers' component = {Vers} options = {optionTab.vers } />
+            <Tab.Screen name = 'vers' component = {Vers} options = {optionTab.vers} />
             <Tab.Screen name = 'medite' component = {Meditated} options = {optionTab.medit} />
-            
         </Tab.Navigator>
     )
 }
