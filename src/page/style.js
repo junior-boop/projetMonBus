@@ -1,21 +1,5 @@
 import {StyleSheet} from 'react-native'
 import {width} from '../const/const'
-import {useFonts} from '@use-expo/font'
-import {AppLoading} from 'expo'
-
-// export const Texte = ({value, styles}) => {
-//     const [isLoaded] = useFonts({
-//         'Gothic' : require('../assets/fonts/GOTHIC.TTF')
-//     });
-    
-//     if(!isLoaded){
-//         return <AppLoading />
-//     } else {
-//         return(
-//             <Text style = {[{fontFamily : 'Gothic'}, styles]}>{value}</Text>
-//         )
-//     }
-// } 
 
 export const Style = StyleSheet.create({
     content : {
@@ -23,7 +7,7 @@ export const Style = StyleSheet.create({
       },
       scrollview : {
         width : width,
-        backgroundColor : '#006bc2',
+        backgroundColor : 'white',
       },
       head : {
           backgroundColor : 'white',
@@ -34,9 +18,9 @@ export const Style = StyleSheet.create({
           padding: 16,
       },
       headerTitle : {
-          fontSize : 30,
+          fontSize : 24,
           fontWeight : 'bold',
-          color : "#00000099"
+          color : "#000000aa"
       },
       container : {
           width : width, 

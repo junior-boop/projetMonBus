@@ -12,7 +12,8 @@ export const Style = StyleSheet.create({
         padding : 16,
         borderRadius : 12,
         backgroundColor : 'white', 
-        elevation : 5
+        borderWidth : 0.5,
+        borderColor : '#77777755'
     },
     Items : {
         flexDirection : 'row',

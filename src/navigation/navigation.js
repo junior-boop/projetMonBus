@@ -1,54 +1,145 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { Login } from '../page/login'
 import { Home } from '../page/home';
-import { Modale, Note, NoteId } from '../page/note'
-import { TeachId, Teaching } from '../page/teaching'
+import { AcccueilDate, Modale, Note, NoteId, Validation } from '../page/note'
+import { Teaching ,TeachId } from '../page/teaching'
 import { Meditated } from '../page/meditated'
-import { Vers, VersId } from '../page/vers'
-import { FontAwesome } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Bible, BibleId } from '../page/readBible'
+
+import { Fontisto, MaterialCommunityIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { ActivityIndicator, StatusBar, View } from 'react-native'
+import { AuthContext } from './context'
+import UserProfils from '../page/user'
+import { check } from '../const/const'
+
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator()
 
-export default class Navigation extends React.Component{
-    render(){
+
+export default function Navigation() {
+    
+    check()
+
+    const initialState = {
+        isLoading : true,
+        userTel : null,
+        userToken : null
+    }
+    
+    const loginState = (prevtState, action) => {
+        switch (action.type){
+            case 'REGISTER' : 
+             return {
+                ...prevtState,
+                userTel : action.tel,
+                userToken : action.token,
+                isLoading : false
+             };
+            case 'LOGIN' : 
+             return {
+                ...prevtState,
+                userTel : action.tel,
+                userToken : action.token,
+                isLoading : false
+             };
+            case 'LOGOUT' : 
+             return {
+                ...prevtState,
+                userTel :null,
+                userToken : null,
+                isLoading : false
+             }
+            case 'RESTRIEVE_TOKEN' : 
+             return {
+                 ...prevtState,
+                 userToken : action.Token,
+                 isLoading : false
+             }
+        }
+    }
+    
+    const [loginReduc, dispatch] = React.useReducer(loginState, initialState)
+
+    const authContext = React.useMemo(() => ({
+        signin : async (userTel, userPassWord) => {
+            await AsyncStorage.getItem('user')
+            .then(dt => {
+                let user = JSON.parse(dt)
+                let userToken
+                userToken = null
+                console.log(user);
+                if(userTel === user.tel && userPassWord === user.mot_de_passe){
+                    userToken = 'viaqjbzjvnpfeivzjbrpvijbezrpvrjbzvpijrbvipzjrbvfipjrzpvciubqzebîohazêhf'
+                }
+
+                dispatch({type : 'LOGIN', tel : userTel, token : userToken})
+            })
+        },
+        signout : () => {
+            dispatch({type : 'LOGOUT'})
+        },
+        signup : () => {
+            
+        }
+    }), [])
+
+    useEffect(() => {
+        setTimeout(() => {
+            dispatch({ type : 'RESTRIEVE_TOKEN', token : 'viaqjbzjvnpfeivzjbrpvijbezrpvrjbzvpijrbvipzjrbvfipjrzpvciubqzebîohazêhf'})
+        }, 1000)
+    }, [])
+
+    if( loginReduc.isLoading ) {
         return(
-            <NavigationContainer>
-                <Stack.Navigator>
-                    <Stack.Screen name = 'login' component = { Login } options = {{headerShown : false}} />
-                    <Stack.Screen name = 'home' component = { Home } />
-                    <Stack.Screen name = 'app' component = {TabNavigation} options = {{headerShown : false}} />
-                    <Stack.Screen name = 'noteId' component = { NoteId } options = {{headerStyle : {elevation : 0}, headerTitle : 'Achat de Billet'}} />
-                    <Stack.Screen name = 'modal' component = {Modale} options = {{cardStyle : {backgroundColor : '#fff'}, headerTitle : 'Ajouter une personne', headerStyle : {elevation : 0}}} />
-                    <Stack.Screen name = 'versId' component = { VersId } options = {{headerStyle : {elevation : 0}}} />
-                    <Stack.Screen name = 'meditId' component = { NoteId } options = {{}} />
-                    <Stack.Screen name = 'TeachId' component = { TeachId } options = {{title : ({route}) => {route}}} />
-                    <Stack.Screen name = 'BibleRead' component = { Bible } options = {{headerStyle : {elevation : 0}, headerTitle : 'Bible'}} />
-                    <Stack.Screen name = 'bibleId' component = { BibleId } options = {{headerStyle : {elevation : 0}, headerTitle : ''}} />
-                </Stack.Navigator>
-            </NavigationContainer>
+            <View style={{flex : 1, alignItems : 'center', justifyContent : 'center'}}>
+                <StatusBar barStyle = 'dark-content' backgroundColor = 'white' />
+                <ActivityIndicator size = 'large' color = {'#006bc299'} />
+            </View>
         )
     }
+    console.log(loginReduc.isLoading, loginReduc.userToken)
+    return(
+        <AuthContext.Provider value = {authContext}>
+            <NavigationContainer>
+                {
+                    loginReduc.userToken !== null ? (
+                        <Stack.Navigator>
+                            <Stack.Screen name = 'app' component = {TabNavigation} options = {{headerShown : false}} />
+                            <Stack.Screen name = 'noteId' component = { NoteId } options = {{headerStyle : {elevation : 0}, headerTitle : 'Achat de Billet'}} />
+                            <Stack.Screen name = 'modal' component = {Modale} options = {{cardStyle : {backgroundColor : '#fff'}, headerTitle : 'Ajouter une personne', headerStyle : {elevation : 0}}}  />
+                            <Stack.Screen name = 'valid' component = {Validation} options = {{cardStyle : {backgroundColor : '#fff'}, headerTitle : 'Ticket Validé', headerStyle : {elevation : 0}}} />
+                            <Stack.Screen name = 'profils' component = { UserProfils } options = {{cardStyle : {backgroundColor : '#fff'}, headerTitle : 'Profils', headerStyle : {elevation : 0}}} />
+                            <Stack.Screen name = 'resevation' component = { AcccueilDate } options = {{cardStyle : {backgroundColor : '#fff'}, headerTitle : 'Profils', headerStyle : {elevation : 0}}} />
+                            <Stack.Screen name = 'meditId' component = { NoteId } />
+                            <Stack.Screen name = 'TeachId' component = { TeachId } options = {{title : ({route}) => {route}}} />
+                        </Stack.Navigator>
+                    ) 
+                    : (
+                        <Stack.Navigator>
+                            <Stack.Screen name = 'login' component = { Login } options = {{headerShown : false}} />
+                            <Stack.Screen name = 'home' component = { Home } options = {{headerShown : false}}/>
+                        </Stack.Navigator>
+                    )
+                }
+                
+            </NavigationContainer>
+        </AuthContext.Provider>
+    )
 }
 
 const optionTab = {
     note : {
-        title: 'Notes', tabBarIcon: ({color}) => (<FontAwesome name="sticky-note" size={20} color = {color} />)
+        title: 'Billets', tabBarIcon: ({color}) => (<Fontisto name="bus-ticket" size={20} color = {color} />)
     },
     vers : {
-        title: 'Versets', tabBarIcon: ({color}) => (<FontAwesome5 name="bible" size={20} color= {color} />)
+        title: 'Achetez', tabBarIcon: ({color}) => (<MaterialCommunityIcons name="ticket" size={20} color= {color} />)
     }, 
     medit : {
-        title: 'Méditation', tabBarIcon: ({color}) => (<FontAwesome5 name="book-open" size={20} color= {color} />)
-    },
-    teach : {
-        title : 'Enseignements', tabBarIcon: ({color}) => (<MaterialCommunityIcons name="triangle" size={20} color= {color} />)
+        title: 'Historique', tabBarIcon: ({color}) => (<Fontisto name="history" size={20} color= {color} />)
     }
 }
 
@@ -57,12 +148,12 @@ const TabNavigation = () => {
         <Tab.Navigator 
             shifting = 'true'
             initialRouteName="note"
-            activeColor= '#64c5eb'
-            inactiveColor= '#555'
+            activeColor= '#006bc2'
+            inactiveColor= '#5555'
             barStyle={{ backgroundColor: 'white', elevation : 0 }}
         >
             <Tab.Screen name = 'note' component = {Note} options = {optionTab.note} />
-            <Tab.Screen name = 'vers' component = {Vers} options = {optionTab.vers} />
+            <Tab.Screen name = 'vers' component = {Teaching} options = {optionTab.vers} />
             <Tab.Screen name = 'medite' component = {Meditated} options = {optionTab.medit} />
         </Tab.Navigator>
     )

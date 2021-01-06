@@ -1,18 +1,30 @@
 {
-  "name": "Rhema",
-  "displayName": "Rhema",
+  "name": ".travel",
+  "displayName": ".travel",
   "expo": {
-    "name": "Projet Mon Bus",
+    "name": ".travel",
     "slug": "projet-mon-bus",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
     ],
-    "description": ""
+    "description": "Application Android et IOS,  pour facilité l'achat des billet de transport (bus et Trains).",
+    "orientation": "portrait",
+    "splash": {
+      "image": "./src/assets/image/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "icon": "./src/assets/image/travel_logo.png",
+    "notification": {
+      "icon": "./src/assets/image/travel_logo.png"
+    },
+    "android": {
+      "package": "com.geniusofdigital.travel"
+    }
   },
-  "oriantation": "portrait",
   "android": {
-    "package": "com.geniusofdigital.rhema",
+    "package": "com.geniusofdigital.travel",
     "versionCode": 1
   }
 }
